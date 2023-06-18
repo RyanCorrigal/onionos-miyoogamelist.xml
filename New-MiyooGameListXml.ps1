@@ -25,6 +25,10 @@ foreach ($game in $gamesWithoutImage) {
     Write-Progress -Activity "Processing XML" -Status "Adding image nodes" -PercentComplete ($progress / $total * 100)
 }
 
-$xml.OuterXml | Set-Content $outputFilePath
+# Convert the XML to a string and replace CR+LF with LF
+$xmlString = $xml.OuterXml -replace "`r`n", "`n"
+
+# Write the string to the file with UTF-8 encoding
+[System.IO.File]::WriteAllLines($outputFilePath, $xmlString, [System.Text.Encoding]::UTF8)
 
 Write-Host "Processing completed. Output file: $outputFilePath"

@@ -25,14 +25,14 @@ foreach ($game in $gamesWithoutImage) {
     Write-Progress -Activity "Processing XML" -Status "Adding image nodes" -PercentComplete ($progress / $total * 100)
 }
 
-# Create an XmlWriterSettings object with the proper settings
+# Create an XmlTextWriter with the proper settings
 $settings = New-Object System.Xml.XmlWriterSettings
 $settings.Indent = $true
 $settings.IndentChars = "    "
-$settings.NewLineChars = "`r`n"
+$settings.NewLineChars = "`n"
 $settings.NewLineHandling = [System.Xml.NewLineHandling]::Replace
+$settings.Encoding = [System.Text.Encoding]::UTF8
 
-# Create an XmlWriter with the settings and write the XML to it
 $writer = [System.Xml.XmlWriter]::Create($outputFilePath, $settings)
 $xml.WriteTo($writer)
 $writer.Flush()
